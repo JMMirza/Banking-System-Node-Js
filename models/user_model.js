@@ -16,7 +16,8 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 5,
         maxlength: 255,
-        unique: true
+        unique: true,
+        lowercase: true
     },
     age: Number,
     password: {
@@ -26,13 +27,11 @@ const userSchema = new mongoose.Schema({
         maxlength: 1024,
     },
     bankBalance: {
-        type: Number,
-        // get: v => Math.round(v),
-        // set: v => Math.round(v)
+        type: Number
     }
 })
 userSchema.methods.generateAuthToken = function() {
-    const token = jwt.sign({ _id: this._id, name: this.name }, config.get('jwtPrivateKey'))
+    const token = jwt.sign({ _id: this._id }, config.get('jwtPrivateKey'))
     return token
 }
 const User = mongoose.model('User', userSchema)

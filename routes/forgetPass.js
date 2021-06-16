@@ -5,23 +5,22 @@ const User = require('../models/user_model')
 const bcrypt = require('bcrypt')
 const Joi = require('joi')
 
-router.post('/', auth, async(req, res) => {
+router.put('/', auth, async(req, res) => {
     const user = await User.findById(req.user._id)
     const { error } = validatePass(req.body)
     if (error) return res.status(400).send(error.details[0].message)
     const previousPassword = await bcrypt.compare(req.body.password, user.password)
     if (!previousPassword) {
-        // user.password = req.body.password
         const salt = await bcrypt.genSalt(10)
         user.password = await bcrypt.hash(req.body.password, salt)
 
     } else {
-        return res.status(400).send("you are not allowed to user previous passwords")
+        return res.status(400).send("you are not allowed to use previous passwords")
     }
     await user.save();
-    const printUser = await User.findById(req.user._id).select({ password: 1 })
+    // const printUser = await User.findById(req.user._id).select({ password: 1 })
     const token = user.generateAuthToken()
-    res.header('x-auth-token', token).status(200).send(printUser)
+    res.header('x-auth-token', token).status(200).send("Successfully updated the password")
 })
 
 function validatePass(user) {

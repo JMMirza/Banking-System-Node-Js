@@ -25,7 +25,7 @@ router.post('/', async(req, res) => {
         const result = await user.save()
         res.status(200).send(_.pick(result, ['_id', 'name', 'email', 'bankBalance']));
     } catch (err) {
-        res.send(err)
+        res.send(err.message)
     }
 })
 
@@ -33,7 +33,7 @@ function validateUser(user) {
     const schema = {
         name: Joi.string().min(5).max(255).required(),
         email: Joi.string().min(5).max(255).required().email(),
-        age: Joi.number().integer().min(1).max(100).required(),
+        age: Joi.number().integer().min(18).max(150).required(),
         password: Joi.string().min(5).max(255).required()
     }
     return Joi.validate(user, schema)
