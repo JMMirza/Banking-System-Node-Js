@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 function createDB() {
 
-    mongoose.connect("mongodb://localhost/practice-db", {
+    mongoose.connect("mongodb://localhost/banking-system", {
             useNewUrlParser: true,
             useCreateIndex: true,
             useUnifiedTopology: true
