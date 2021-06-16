@@ -9,15 +9,19 @@ router.post('/', auth, async(req, res) => {
     const user = await User.findById(req.user._id)
     const { error } = validatePass(req.body)
     if (error) return res.status(400).send(error.details[0].message)
-    if (user.password !== req.body.password) {
+    const previousPassword = await bcrypt.compare(req.body.password, user.password)
+    if (!previousPassword) {
+        // user.password = req.body.password
         const salt = await bcrypt.genSalt(10)
-        user.password = await bcrypt.hash(user.password, salt)
+        user.password = await bcrypt.hash(req.body.password, salt)
+
     } else {
         return res.status(400).send("you are not allowed to user previous passwords")
     }
-    await user.save()
+    await user.save();
     const printUser = await User.findById(req.user._id).select({ password: 1 })
-    res.status(200).send(printUser)
+    const token = user.generateAuthToken()
+    res.header('x-auth-token', token).status(200).send(printUser)
 })
 
 function validatePass(user) {
