@@ -1,14 +1,14 @@
 const express = require('express')
 const router = express.Router()
 const auth = require('../middleware/auth')
-const User = require('../models/user_model')
+const Customer = require('../models/customer')
 const Joi = require('joi')
 
 router.put('/', auth, async(req, res) => {
-    const user = await User.findById(req.user._id)
+    const user = await Customer.findById(req.user._id)
     const { error } = validateOtherUser(req.body)
     if (error) return res.status(400).send(error.details[0].message)
-    const otherUser = await User.findOne({ email: req.body.email })
+    const otherUser = await Customer.findOne({ email: req.body.email })
     if (!otherUser) return res.status(400).send("User not found")
     if (user.email !== otherUser.email) {
         if (user.bankBalance > parseInt(req.body.amount)) {
@@ -22,7 +22,7 @@ router.put('/', auth, async(req, res) => {
     }
     await user.save()
     await otherUser.save()
-    const printUser = await User.findById(req.user._id).select('-password -age')
+    const printUser = await Customer.findById(req.user._id).select('-password -age')
     res.status(200).send(printUser)
 })
 

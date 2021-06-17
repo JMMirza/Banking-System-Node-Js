@@ -1,12 +1,12 @@
 const express = require('express')
 const router = express.Router()
 const auth = require('../middleware/auth')
-const User = require('../models/user_model')
+const Customer = require('../models/customer')
 const bcrypt = require('bcrypt')
 const Joi = require('joi')
 
 router.put('/', auth, async(req, res) => {
-    const user = await User.findById(req.user._id)
+    const user = await Customer.findById(req.user._id)
     const { error } = validatePass(req.body)
     if (error) return res.status(400).send(error.details[0].message)
     const previousPassword = await bcrypt.compare(req.body.password, user.password)
@@ -18,7 +18,6 @@ router.put('/', auth, async(req, res) => {
         return res.status(400).send("you are not allowed to use previous passwords")
     }
     await user.save();
-    // const printUser = await User.findById(req.user._id).select({ password: 1 })
     const token = user.generateAuthToken()
     res.header('x-auth-token', token).status(200).send("Successfully updated the password")
 })

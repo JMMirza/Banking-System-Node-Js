@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const config = require('config')
 
-const userSchema = new mongoose.Schema({
+const customerSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -27,13 +27,14 @@ const userSchema = new mongoose.Schema({
         maxlength: 1024,
     },
     bankBalance: {
-        type: Number
+        type: Number,
+        default: 0
     }
 })
-userSchema.methods.generateAuthToken = function() {
-    const token = jwt.sign({ _id: this._id }, config.get('jwtPrivateKey'), { expiresIn: "120s" })
+customerSchema.methods.generateAuthToken = function() {
+    const token = jwt.sign({ _id: this._id }, config.get('jwtPrivateKey'), { expiresIn: "300s" })
     return token
 }
-const User = mongoose.model('User', userSchema)
+const Customer = mongoose.model('Customer', customerSchema)
 
-module.exports = User
+module.exports = Customer
