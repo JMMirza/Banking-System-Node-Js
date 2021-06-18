@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const bankSchema = require('./bank')
+const userSchema = require('./user')
 const jwt = require('jsonwebtoken')
 const config = require('config')
 
@@ -26,9 +28,17 @@ const customerSchema = new mongoose.Schema({
         minlength: 5,
         maxlength: 1024,
     },
+    bank: {
+        type: bankSchema,
+        required: true
+    },
     bankBalance: {
         type: Number,
         default: 0
+    },
+    user: {
+        type: userSchema,
+        required: true
     }
 })
 customerSchema.methods.generateAuthToken = function() {

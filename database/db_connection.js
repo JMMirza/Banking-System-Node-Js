@@ -5,7 +5,8 @@ function createDB() {
     mongoose.connect("mongodb://localhost/banking-system", {
             useNewUrlParser: true,
             useCreateIndex: true,
-            useUnifiedTopology: true
+            useUnifiedTopology: true,
+            useFindAndModify: false
         })
         .then(() => {
             console.log('connection established')

@@ -25,5 +25,6 @@ function validateBank(bank) {
     return Joi.validate(bank, schema)
 }
 
+exports.bankSchema = bankSchema
 exports.Bank = Bank
 exports.validate = validateBank
