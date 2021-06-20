@@ -40,7 +40,7 @@ router.post('/', auth, async(req, res) => {
     })
     try {
         const result = await customer.save()
-        res.status(200).send(_.pick(result, ['_id', 'name', 'email', 'bankBalance', 'bank.name']));
+        res.status(200).send(_.pick(result, ['_id', 'name', 'email', 'bankBalance', 'bank.name', 'user.name']));
     } catch (err) {
         res.send(err.message)
     }
@@ -52,7 +52,8 @@ function validateUser(customer) {
         email: Joi.string().min(5).max(255).required().email(),
         age: Joi.number().integer().min(18).max(150).required(),
         password: Joi.string().min(5).max(255).required(),
-        bankId: Joi.string().required()
+        bankId: Joi.string().required(),
+        userId: Joi.string().required()
     }
     return Joi.validate(customer, schema)
 }
