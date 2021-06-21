@@ -12,7 +12,7 @@ This application contains 5 functionalities,
 In this project I have created backend of banking system which is in Node Js, in this project you will find out 7 folders:
 1. config: which contains all my configuration variables that is used for the JWT.
 2. Database: contain my database which is in mysql.
-3. Middlewares: It contains all my custom middleware such as �auth.js� which authorize a user by checking the jwt of it.
+3. Middlewares: It contains all my custom middleware such as �auth.js, async.js, error.js� which authorize a user by checking the jwt of it, finding error.
 4. Models: in this folder there is our models that is used in our application at this moment there is only one model that is our user, so there is only one file in it.
 5. Models: In this i have 3 models files: User, Customer, bank. These files contains scehema and models. 
 6. Routes: as the name is telling us it has routes of our application. At this time there are 4 routes in this applications that is 
