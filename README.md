@@ -23,6 +23,7 @@ In this project I have created backend of banking system which is in Node Js, in
 * addAmount
 * transferAmt
 * forgetPass
+* bank
 7. Views: it contains our html file that is used to display route of HOME.
 
 
